@@ -1,0 +1,11 @@
+version: "3.9"
+
+
+services:
+  my-container:
+    build:
+      context: ${{environment}}$
+      dockerfile: Dockerfile
+    ports:
+      - ${{localport}}$:9200
+    container_name: my-container-${{environment}}$
