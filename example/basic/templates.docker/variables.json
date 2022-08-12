@@ -1,0 +1,23 @@
+{
+    "hello": {
+        "type": "string",
+        "value": "Hello"
+    },
+    "goodbye": {
+        "type": "command",
+        "rtype": "string",
+        "value": "uname -a"
+    },
+    "environment": {
+        "type": "string",
+        "value": "sbx"
+    },
+    "localport": {
+        "type": "int",
+        "value": "9200"
+    },
+    "something": {
+        "type": "float",
+        "value": "10.21"
+    }
+}

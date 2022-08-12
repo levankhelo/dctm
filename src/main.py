@@ -1,40 +1,39 @@
 """Handle arguments and run DCTM
 """
 
-from dctm import DCTM
+from curses import meta
+from dctm import *
+import yaml, json, argparse
+from logging import error
 
+
+parser = argparse.ArgumentParser(description='docker-compose template manager')
+parser.add_argument('--config', '-c', type=str, nargs=1, 
+                    help='path to variable configurations')
+parser.add_argument('--template', '--temp', '--source', '-s', type=str, nargs=1,  
+                    help='path to docketemplate, that we are overriding')
+parser.add_argument('--destination', '--target', '-t', type=str, nargs=1,
+                    help='path where docker-compose.yaml should be stored')
+parser.add_argument('--strict', action='store_true',
+                    help="Strictly check and compare values to template")
+
+args = parser.parse_args()
 
 def main():
     """Basic main function that will be executed
     """
+    
     dctm = DCTM()
-
+    
+    strict = False
+    if args.strict:
+        strict = True
+    
     dctm.switch(
-        "../example/basic/templates.docker/main.dockertemplate.yaml",
-        "../docker-compose.test.yaml",
-        {
-            "hello": {
-                "type": "string",
-                "value": 'Hello'
-            },
-            "goodbye": {
-                "type": "command",
-                "rtype": "string",
-                "value": 'uname -a'
-            },
-            "environment": {
-                "type": "string",
-                "value": 'sbx'
-            },
-            "localport": {
-                "type": "int",
-                "value": '9200'
-            },
-            "something": {
-                "type": "float",
-                "value": '10.21'
-            }
-        }
+        template_file=args.template[0],
+        target_path=args.destination[0],
+        template_values_dict=load_config(args.config[0]),
+        strict=strict
     )
 
 main()

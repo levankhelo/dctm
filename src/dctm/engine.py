@@ -11,11 +11,26 @@ class DCTM:
     def __init__(self):
         self.values = {}
 
-    def switch(self, template_file, target_path = os.getcwd()+"/docker-compose.yaml", template_values_dict={}):
+    def switch(self, template_file, target_path = os.getcwd()+"/docker-compose.yaml", template_values_dict={}, strict=False):
+        if strict == True:
+            self.__check_variables(template_file, template_values_dict)
         self.values = self.__prepare_values(template_values_dict)
         self.__replace_values(template_file, target_path)
         self.validate(target_path)
 
+    def __check_variables(self, template_file, template_values_dict):
+        """Check if variables and template match
+
+        Args:
+            template_file (string): path ro template file
+            template_values_dict (dict): dictionary of variables
+        
+        Returns:
+            list: list of missing values in variables file
+        """
+        # TODO: compare all values in "template_values_dict" to regex_search in template_file and return difference
+        pass
+    
     def __prepare_values(self, template_values_dict):
         """prepare values for overriding file, by running commands and returning string
 
