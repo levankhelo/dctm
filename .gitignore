@@ -1,2 +1,4 @@
 *.env
 *.test.yaml
+*.pyc
+*__pycache__
