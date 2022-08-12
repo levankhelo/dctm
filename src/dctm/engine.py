@@ -10,12 +10,12 @@ class DCTM:
     """
     def __init__(self):
         self.values = {}
-    
+
     def switch(self, template_file, target_path = os.getcwd()+"/docker-compose.yaml", template_values_dict={}):
         self.values = self.__prepare_values(template_values_dict)
         self.__replace_values(template_file, target_path)
         self.validate(target_path)
-    
+
     def __prepare_values(self, template_values_dict):
         """prepare values for overriding file, by running commands and returning string
 
@@ -30,13 +30,13 @@ class DCTM:
             # Run command and store output
             if "command" in template_values_dict[i]["type"].lower():
                 template_values_dict[i]["value"] = self.__command(template_values_dict[i]["value"])
-            
+
             # Parse what type of data it is
             values[i.lower()] = self.__format_value_type(template_values_dict[i])
 
-                
+
         return values
-    
+
     def __format_value_type(self, value):
         """Redirect data to correct format
 
@@ -47,7 +47,7 @@ class DCTM:
             int, float, string: returns value in correct format
         """
         value_type = value["type"].lower()
-        
+
         try:
             value_type = value["rtype"].lower()
         except Exception as e:
@@ -61,11 +61,11 @@ class DCTM:
         # String
         # return '"'+value["value"].replace('"','\"')+'"'
         return value["value"]
-    
+
     def __replace_values(self, template_file, target_path):
         template = open(template_file, "r")
         target = open(target_path, "w")
-        
+
         for line in template:
             if "${{" in line and "}}$" in line:
                 pattern = r'\${{(.*?)\}}'
@@ -75,11 +75,11 @@ class DCTM:
                 target.write(line)
                 continue
             target.write(line)
-                
+
         template.close()
         target.close()
-                
-    
+
+
     def __command(self, command):
         """execute command and return output
 
@@ -95,7 +95,7 @@ class DCTM:
         except Exception as e:
             error(f"⛔️ Failed command: {command} \n{e}")
             return "ERROR"
-    
+
     def validate(self, compose_file):
         """Validate docker compose file
 

@@ -1,7 +1,7 @@
 """Handle arguments and run DCTM
 """
 
-from .dctm import DCTM
+from dctm import DCTM
 
 
 def main():
